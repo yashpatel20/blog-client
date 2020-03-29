@@ -4,8 +4,10 @@ import { useHistory, Link } from "react-router-dom";
 import appIcon from "../images/av150.png";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
-
-//MUI
+import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../redux/actions/userActions";
+import { SET_USER, SET_ERRORS, CLEAR_ERRORS, LOADING_UI } from "../redux/types";
+//mui
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, Button } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -43,34 +45,25 @@ const styles = makeStyles({
 });
 
 const Login = () => {
-  const classes = styles();
+  const classes = styles(); //mui
 
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  const ui = useSelector(state => state.UI);
   const history = useHistory();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [notifMessage, setNotifMessage] = useState("");
-
   const handleUsernameChange = event => setUsername(event.target.value);
   const handlePasswordChange = event => setPassword(event.target.value);
-  const handleSubmit = async event => {
+
+  const handleSubmit = event => {
     event.preventDefault();
-    setLoading(true);
-    try {
-      const user = await loginService.login({
-        username,
-        password
-      });
-      setLoading(false);
-      window.localStorage.setItem("BlogToken", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUsername("");
-      setPassword("");
-      history.push("/");
-    } catch (error) {
-      setNotifMessage("Wrong credentials");
-      setLoading(false);
-    }
+    const user = {
+      username,
+      password
+    };
+    dispatch(loginUser(user, history));
   };
   return (
     <Grid container className={classes.form}>
@@ -88,8 +81,8 @@ const Login = () => {
             onChange={handleUsernameChange}
             label="username"
             type="text"
-            helperText={notifMessage !== "" ? "Enter correct username" : ""}
-            error={notifMessage !== "" ? true : false}
+            helperText={ui.errors !== "" ? "Enter correct username" : ""}
+            error={ui.errors !== "" ? true : false}
             fullWidth
           />
           <TextField
@@ -99,13 +92,13 @@ const Login = () => {
             onChange={handlePasswordChange}
             label="password"
             type="password"
-            helperText={notifMessage !== "" ? "Enter correct password" : ""}
-            error={notifMessage !== "" ? true : false}
+            helperText={ui.errors !== "" ? "Enter correct password" : ""}
+            error={ui.errors !== "" ? true : false}
             fullWidth
           />
-          {notifMessage !== "" && (
+          {ui.errors !== "" && (
             <Typography variant="body2" className={classes.unsuccessful}>
-              {notifMessage}
+              {ui.errors}
             </Typography>
           )}
           <Button
@@ -113,10 +106,10 @@ const Login = () => {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={loading}
+            disabled={ui.loading}
           >
             Login
-            {loading && (
+            {ui.loading && (
               <CircularProgress size={30} className={classes.progress} />
             )}
           </Button>

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useHistory, Link } from "react-router-dom";
 import appIcon from "../images/av150.png";
-import signupService from "../services/signup";
+import userService from "../services/user";
 import blogService from "../services/blogs";
+import { useSelector, useDispatch } from "react-redux";
+import { signupUser } from "../redux/actions/userActions";
 
 //MUI
 import Grid from "@material-ui/core/Grid";
@@ -44,41 +46,35 @@ const styles = makeStyles({
 
 const Signup = () => {
   const classes = styles();
-
   const history = useHistory();
+  const dispatch = useDispatch();
+  const ui = useSelector(state => state.UI);
+
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [notifMessage, setNotifMessage] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const [notifMessage, setNotifMessage] = useState("");
 
   const handleUsernameChange = event => setUsername(event.target.value);
   const handleNameChange = event => setName(event.target.value);
   const handlePasswordChange = event => setPassword(event.target.value);
   const handleConfirmPasswordChange = event =>
     setConfirmPassword(event.target.value);
-  const handleSubmit = async event => {
+
+  const handleSubmit = event => {
     event.preventDefault();
-    setLoading(true);
-    try {
-      const user = await signupService.signup({
-        username,
-        name,
-        password
-      });
-      setLoading(false);
-      window.localStorage.setItem("BlogToken", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUsername("");
-      setName("");
-      setPassword("");
-      setConfirmPassword("");
-      history.push("/");
-    } catch (error) {
-      setNotifMessage("Username not unique");
-      setLoading(false);
-    }
+    const user = {
+      username,
+      name,
+      password
+    };
+    dispatch(signupUser(user, history));
+    setUsername("");
+    setName("");
+    setPassword("");
+    setConfirmPassword("");
   };
   return (
     <Grid container className={classes.form}>
@@ -96,8 +92,8 @@ const Signup = () => {
             onChange={handleUsernameChange}
             label="Username"
             type="text"
-            helperText={notifMessage !== "" ? "username must be unique" : ""}
-            error={notifMessage !== "" ? true : false}
+            helperText={ui.errors !== "" ? "username must be unique" : ""}
+            error={ui.errors !== "" ? true : false}
             fullWidth
           />
           <TextField
@@ -131,9 +127,9 @@ const Signup = () => {
             error={confirmPassword !== password ? true : false}
             fullWidth
           />
-          {notifMessage !== "" && (
+          {ui.errors !== "" && (
             <Typography variant="body2" className={classes.unsuccessful}>
-              {notifMessage}
+              {ui.errors}
             </Typography>
           )}
           <Button
@@ -141,10 +137,10 @@ const Signup = () => {
             variant="contained"
             color="primary"
             className={classes.button}
-            disabled={loading}
+            disabled={ui.loading}
           >
             Signup
-            {loading && (
+            {ui.loading && (
               <CircularProgress size={30} className={classes.progress} />
             )}
           </Button>

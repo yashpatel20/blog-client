@@ -46,23 +46,24 @@ const theme = createMuiTheme({
 
 function App() {
   const dispatch = useDispatch();
+  const auth = useSelector(state => state.user.authenticated);
+  const blogs = useSelector(state => state.data.blogs);
+
   useEffect(() => {
-    const user = JSON.parse(window.localStorage.getItem("BlogToken"));
-    if (user) {
+    const user = JSON.parse(localStorage.getItem("BlogToken"));
+    if (user && user.token) {
       const decodedToken = jwtDecode(user.token);
       if (decodedToken.exp * 1000 < Date.now()) {
         dispatch(logoutUser());
         window.location.href = "/login";
       } else {
         dispatch({ type: SET_AUTHENTICATED });
+        blogService.setToken(user.token);
         dispatch(getUserData(user.id));
       }
-    } else {
-      dispatch({ type: SET_UNAUTHENTICATED });
     }
   }, [dispatch]);
 
-  const auth = useSelector(state => state.user.authenticated);
   return (
     <MuiThemeProvider theme={theme}>
       <Router>

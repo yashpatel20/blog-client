@@ -1,4 +1,10 @@
-import { SET_BLOGS, LIKE_BLOG, UNLIKE_BLOG, LOADING_DATA } from "../types";
+import {
+  SET_BLOGS,
+  LIKE_BLOG,
+  UNLIKE_BLOG,
+  LOADING_DATA,
+  POST_BLOG
+} from "../types";
 
 const initialState = {
   blogs: [],
@@ -29,6 +35,11 @@ export default function(state = initialState, actions) {
         ...state,
         blogs: actions.payload,
         loading: false
+      };
+    case POST_BLOG:
+      return {
+        ...state,
+        blogs: [actions.payload, ...state.blogs]
       };
     default:
       return state;

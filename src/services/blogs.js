@@ -15,16 +15,27 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token, "Content-type": "application/json" }
   };
-  console.log(config);
   const response = await axios.post(baseUrl, newObject, config);
   return response.data;
 };
 
-const update = async (id, newObject) => {
+const like = async (id, newObject) => {
   const config = {
     headers: { Authorization: token, "Content-type": "application/json" }
   };
-  const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+  const response = await axios.put(`${baseUrl}/like/${id}`, newObject, config);
+  return response.data;
+};
+
+const unlike = async (id, newObject) => {
+  const config = {
+    headers: { Authorization: token, "Content-type": "application/json" }
+  };
+  const response = await axios.put(
+    `${baseUrl}/unlike/${id}`,
+    newObject,
+    config
+  );
   return response.data;
 };
 
@@ -36,4 +47,4 @@ const deleteReq = async id => {
   return response;
 };
 
-export default { getAll, create, update, deleteReq, setToken };
+export default { getAll, create, like, unlike, deleteReq, setToken };

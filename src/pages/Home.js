@@ -18,6 +18,7 @@ const Home = () => {
     return (
       <Blog
         key={blog.id}
+        blogId={blog.id}
         title={blog.title}
         author={blog.author}
         url={blog.url}

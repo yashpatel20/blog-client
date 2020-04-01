@@ -12,3 +12,4 @@ export const LOADING_DATA = "LOADING_DATA";
 export const SET_BLOGS = "SET_BLOGS";
 export const LIKE_BLOG = "LIKE_BLOG";
 export const UNLIKE_BLOG = "UNLIKE_BLOG";
+export const POST_BLOG = "POST_BLOG";

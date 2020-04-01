@@ -15,7 +15,7 @@ export const loginUser = (userData, history) => async dispatch => {
   try {
     const user = await loginService.login(userData);
     // setLoading(false);
-    window.localStorage.setItem("BlogToken", JSON.stringify(user));
+    localStorage.setItem("BlogToken", JSON.stringify(user));
     blogService.setToken(user.token);
     dispatch(getUserData(user.id));
     dispatch({
@@ -34,7 +34,7 @@ export const signupUser = (userData, history) => async dispatch => {
   dispatch({ type: LOADING_UI });
   try {
     const user = await userService.signup(userData);
-    window.localStorage.setItem("BlogToken", JSON.stringify(user));
+    localStorage.setItem("BlogToken", JSON.stringify(user));
     blogService.setToken(user.token);
     dispatch(getUserData(user.id));
     dispatch({

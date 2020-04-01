@@ -4,6 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import PostBlog from "./PostBlog";
 import "./Navbar.css";
 import "../App.css";
 
@@ -21,11 +22,7 @@ const Navbar = () => {
       <Toolbar className="nav-container">
         {authenticated ? (
           <Fragment>
-            <Tooltip title="Post a blog" placement="top">
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-            </Tooltip>
+            <PostBlog />
             <Link to="/">
               <Tooltip title="Home" placement="top">
                 <IconButton>

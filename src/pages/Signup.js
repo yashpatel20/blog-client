@@ -54,8 +54,6 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [loading, setLoading] = useState(false);
-  // const [notifMessage, setNotifMessage] = useState("");
 
   const handleUsernameChange = event => setUsername(event.target.value);
   const handleNameChange = event => setName(event.target.value);

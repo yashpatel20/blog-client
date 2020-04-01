@@ -1,6 +1,13 @@
-import { SET_BLOGS, LIKE_BLOG, UNLIKE_BLOG, LOADING_DATA } from "../types";
+import {
+  SET_BLOGS,
+  LIKE_BLOG,
+  UNLIKE_BLOG,
+  LOADING_DATA,
+  LOADING_UI,
+  POST_BLOG,
+  CLEAR_ERRORS
+} from "../types";
 import blogService from "../../services/blogs";
-import { getUserData } from "../actions/userActions";
 
 export const getBlogs = () => async dispatch => {
   dispatch({ type: LOADING_DATA });
@@ -16,9 +23,25 @@ export const getBlogs = () => async dispatch => {
   }
 };
 
+//Post a blog
+export const postBlog = newBlog => async dispatch => {
+  dispatch({ type: LOADING_UI });
+  const blogObject = {
+    ...newBlog,
+    likedBy: []
+  };
+  try {
+    const response = await blogService.create(blogObject);
+    dispatch({ type: POST_BLOG, payload: response });
+    dispatch({ type: CLEAR_ERRORS });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const likeBlog = (blogId, blogObject) => async dispatch => {
   try {
-    const response = await blogService.update(blogId, blogObject);
+    const response = await blogService.like(blogId, blogObject);
     const blogs = await blogService.getAll();
     blogs.sort((a, b) => a.likes - b.likes);
     dispatch({
@@ -32,14 +55,12 @@ export const likeBlog = (blogId, blogObject) => async dispatch => {
 
 export const unlikeBlog = (blogId, blogObject) => async dispatch => {
   try {
+    const response = await blogService.unlike(blogId, blogObject);
     const blogs = await blogService.getAll();
-    const response = await blogService.update(blogId, blogObject);
-    const newBlogs = blogs
-      .map(blog => (blog.title === blogObject.title ? response : blog))
-      .sort((a, b) => a.likes - b.likes);
+    blogs.sort((a, b) => a.likes - b.likes);
     dispatch({
-      type: SET_BLOGS,
-      payload: newBlogs
+      type: UNLIKE_BLOG,
+      payload: blogs
     });
   } catch (error) {
     console.log(error);

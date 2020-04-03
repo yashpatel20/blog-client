@@ -5,7 +5,8 @@ import {
   UNLIKE_BLOG,
   LOADING_DATA,
   POST_BLOG,
-  DELETE_BLOG
+  DELETE_BLOG,
+  SUBMIT_COMMENT
 } from "../types";
 
 const initialState = {
@@ -46,6 +47,11 @@ export default function(state = initialState, actions) {
         ...state,
         blogs: actions.payload,
         loading: false
+      };
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        blogs: actions.payload
       };
     case POST_BLOG:
       return {

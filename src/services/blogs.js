@@ -47,6 +47,18 @@ const unlike = async (id, newObject) => {
   return response.data;
 };
 
+const comment = async (id, newObject) => {
+  const config = {
+    headers: { Authorization: token, "Content-type": "application/json" }
+  };
+  const response = await axios.put(
+    `${baseUrl}/comment/${id}`,
+    newObject,
+    config
+  );
+  return response.data;
+};
+
 const deleteReq = async id => {
   const config = {
     headers: { Authorization: token, "Content-type": "application/json" }
@@ -55,4 +67,13 @@ const deleteReq = async id => {
   return response;
 };
 
-export default { getAll, getBlog, create, like, unlike, deleteReq, setToken };
+export default {
+  getAll,
+  getBlog,
+  create,
+  like,
+  unlike,
+  deleteReq,
+  comment,
+  setToken
+};

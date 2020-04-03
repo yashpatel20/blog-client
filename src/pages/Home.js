@@ -24,6 +24,7 @@ const Home = () => {
         author={blog.author}
         url={blog.url}
         likes={blog.likes}
+        noOfComments={blog.noOfComments}
       />
     );
   });

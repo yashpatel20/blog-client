@@ -39,6 +39,7 @@ const PostBlog = () => {
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
   const [newLikes, setNewLikes] = useState(0);
+  const [newNoOfComments, setNewNoOfComments] = useState(0);
   const ui = useSelector(state => state.UI);
 
   const handleOpen = () => setOpen(true);
@@ -54,7 +55,8 @@ const PostBlog = () => {
       title: newTitle,
       author: newAuthor,
       url: newUrl,
-      likes: newLikes
+      likes: newLikes,
+      noOfComments: newNoOfComments
     };
     dispatch(postBlog(newBlog));
     setOpen(false);
@@ -62,6 +64,7 @@ const PostBlog = () => {
     setNewAuthor("");
     setNewUrl("");
     setNewLikes("");
+    setNewNoOfComments("");
   };
 
   return (
@@ -113,17 +116,6 @@ const PostBlog = () => {
               onChange={handleUrlChange}
               fullWidth
             />
-            {/* <TextField
-              name="likes"
-              type="text"
-              label="Likes"
-              placeholder="URL"
-              // error={errors.body ? true : false}
-              // helperText={errors.body}
-              className={classes.textField}
-              onChange={handleLikesChange}
-              fullWidth
-            /> */}
             <Button
               type="submit"
               variant="contained"

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { getBlog } from "../redux/actions/dataActions";
 import userServices from "../services/user";
 import LikeButton from "./LikeButton";
+import Comment from "./Comment";
+import CommentForm from "./CommentForm";
 
 import { makeStyles } from "@material-ui/core";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -20,6 +22,11 @@ import appIcon from "../images/avatar.png";
 import ChatIcon from "@material-ui/icons/Chat";
 
 const styles = makeStyles({
+  visibleSeparator: {
+    width: "100%",
+    borderBottom: "1px solid rbga(0,0,0,0.1)",
+    marginBotton: 20
+  },
   invisibleSeparator: {
     border: "none",
     margin: 4
@@ -47,7 +54,15 @@ const styles = makeStyles({
     marginBottom: 50
   }
 });
-const BlogDialog = ({ blogId, userHandle, title, author, url, likes }) => {
+const BlogDialog = ({
+  blogId,
+  userHandle,
+  title,
+  author,
+  url,
+  likes,
+  noOfComments
+}) => {
   const dispatch = useDispatch();
   const classes = styles();
   const { user } = useSelector(state => state.data.myBlog);
@@ -93,8 +108,11 @@ const BlogDialog = ({ blogId, userHandle, title, author, url, likes }) => {
             <ChatIcon />
           </IconButton>
         </Tooltip>
-        <span>Comments</span>
+        <span>{noOfComments} Comments</span>
       </Grid>
+      <hr className={classes.visibleSeparator} />
+      <CommentForm blogId={blogId} />
+      <Comment />
     </Grid>
   );
   return (

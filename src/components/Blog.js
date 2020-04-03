@@ -37,7 +37,15 @@ const styles = makeStyles({
   }
 });
 
-const Blog = ({ blogId, userHandle, title, author, url, likes }) => {
+const Blog = ({
+  blogId,
+  userHandle,
+  title,
+  author,
+  url,
+  likes,
+  noOfComments
+}) => {
   const user = useSelector(state => state.user);
   const data = useSelector(state => state.data);
   const dispatch = useDispatch();
@@ -80,7 +88,7 @@ const Blog = ({ blogId, userHandle, title, author, url, likes }) => {
             <ChatIcon />
           </IconButton>
         </Tooltip>
-        <span>Comments</span>
+        <span>{noOfComments} Comments</span>
         <BlogDialog
           blogId={blogId}
           userHandle={userHandle}
@@ -88,6 +96,7 @@ const Blog = ({ blogId, userHandle, title, author, url, likes }) => {
           author={author}
           url={url}
           likes={likes}
+          noOfComments={noOfComments}
         />
       </CardContent>
     </Card>

@@ -16,3 +16,4 @@ export const LIKE_BLOG = "LIKE_BLOG";
 export const UNLIKE_BLOG = "UNLIKE_BLOG";
 export const POST_BLOG = "POST_BLOG";
 export const DELETE_BLOG = "DELETE_BLOG";
+export const SUBMIT_COMMENT = "SUBMIT_COMMENT";

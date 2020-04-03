@@ -9,7 +9,8 @@ import {
   SET_USER,
   DELETE_BLOG,
   SET_BLOG,
-  STOP_LOADING_UI
+  STOP_LOADING_UI,
+  SUBMIT_COMMENT
 } from "../types";
 import blogService from "../../services/blogs";
 import userService from "../../services/user";
@@ -48,7 +49,8 @@ export const postBlog = newBlog => async dispatch => {
   dispatch({ type: LOADING_UI });
   const blogObject = {
     ...newBlog,
-    likedBy: []
+    likedBy: [],
+    comments: []
   };
   try {
     const response = await blogService.create(blogObject);
@@ -99,6 +101,29 @@ export const deleteBlog = blogId => async dispatch => {
   try {
     const response = await blogService.deleteReq(blogId);
     dispatch({ type: DELETE_BLOG, payload: blogId });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const submitComment = (blogId, blogObject, userId) => async dispatch => {
+  try {
+    const response = await blogService.comment(blogId, blogObject);
+    const blogs = await blogService.getAll();
+    const user = await userService.getUserByID(userId);
+    const blog = await blogService.getBlog(blogId);
+    dispatch({
+      type: SUBMIT_COMMENT,
+      payload: blogs
+    });
+    dispatch({
+      type: SET_USER,
+      payload: user
+    });
+    dispatch({
+      type: SET_BLOG,
+      payload: blog
+    });
   } catch (error) {
     console.log(error);
   }

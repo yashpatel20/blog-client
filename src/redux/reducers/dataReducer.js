@@ -1,13 +1,18 @@
 import {
+  SET_BLOG,
   SET_BLOGS,
   LIKE_BLOG,
   UNLIKE_BLOG,
   LOADING_DATA,
-  POST_BLOG
+  POST_BLOG,
+  DELETE_BLOG
 } from "../types";
 
 const initialState = {
   blogs: [],
+  myBlog: {
+    user: { username: "yash" }
+  },
   loading: false
 };
 
@@ -18,12 +23,18 @@ export default function(state = initialState, actions) {
         ...state,
         loading: true
       };
+    case SET_BLOG:
+      return {
+        ...state,
+        myBlog: actions.payload
+      };
     case SET_BLOGS:
       return {
         ...state,
         blogs: actions.payload,
         loading: false
       };
+    //call SET_BLOG after like unlike
     case LIKE_BLOG:
       return {
         ...state,
@@ -40,6 +51,12 @@ export default function(state = initialState, actions) {
       return {
         ...state,
         blogs: [actions.payload, ...state.blogs]
+      };
+    case DELETE_BLOG:
+      let index = state.blogs.findIndex(blog => blog.id === actions.payload);
+      state.blogs.splice(index, 1);
+      return {
+        ...state
       };
     default:
       return state;

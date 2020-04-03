@@ -11,6 +11,14 @@ const getAll = async () => {
   return request.data;
 };
 
+const getBlog = async id => {
+  const config = {
+    headers: { Authorization: token }
+  };
+  const request = await axios.get(`${baseUrl}/${id}`, config);
+  return request.data;
+};
+
 const create = async newObject => {
   const config = {
     headers: { Authorization: token, "Content-type": "application/json" }
@@ -47,4 +55,4 @@ const deleteReq = async id => {
   return response;
 };
 
-export default { getAll, create, like, unlike, deleteReq, setToken };
+export default { getAll, getBlog, create, like, unlike, deleteReq, setToken };

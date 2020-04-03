@@ -6,10 +6,13 @@ export const LOADING_USER = "LOADING_USER";
 //ui reducer types
 export const SET_ERRORS = "SET_ERRORS";
 export const LOADING_UI = "LOADING_UI";
+export const STOP_LOADING_UI = "STOP_LOADING_UI";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const LOADING_DATA = "LOADING_DATA";
 //data reducer types
 export const SET_BLOGS = "SET_BLOGS";
+export const SET_BLOG = "SET_BLOG";
 export const LIKE_BLOG = "LIKE_BLOG";
 export const UNLIKE_BLOG = "UNLIKE_BLOG";
 export const POST_BLOG = "POST_BLOG";
+export const DELETE_BLOG = "DELETE_BLOG";

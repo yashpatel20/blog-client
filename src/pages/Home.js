@@ -19,6 +19,7 @@ const Home = () => {
       <Blog
         key={blog.id}
         blogId={blog.id}
+        userHandle={blog.user}
         title={blog.title}
         author={blog.author}
         url={blog.url}

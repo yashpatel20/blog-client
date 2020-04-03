@@ -3,6 +3,10 @@ import appIcon from "../images/avatar.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { likeBlog, unlikeBlog } from "../redux/actions/dataActions";
+import { getUserData } from "../redux/actions/userActions";
+import DeleteBlog from "../components/DeleteBlog";
+import BlogDialog from "./BlogDialog";
+import LikeButton from "./LikeButton";
 
 //MUI
 import Card from "@material-ui/core/Card";
@@ -33,66 +37,16 @@ const styles = makeStyles({
   }
 });
 
-const Blog = ({ blogId, title, author, url, likes }) => {
+const Blog = ({ blogId, userHandle, title, author, url, likes }) => {
   const user = useSelector(state => state.user);
   const data = useSelector(state => state.data);
   const dispatch = useDispatch();
   const classes = styles();
 
-  const handleLikeButton = () => {
-    const findBlog = data.blogs.find(item => item.title === title);
-    const updateLike = {
-      title: findBlog.title,
-      author: findBlog.author,
-      url: findBlog.url,
-      likes: findBlog.likes + 1,
-      likedBy: [...findBlog.likedBy, user.id]
-    };
-    dispatch(likeBlog(findBlog.id, updateLike));
-  };
-  const handleUnLikeButton = () => {
-    const findBlog = data.blogs.find(item => item.title === title);
-    const newLikedBy = findBlog.likedBy.filter(
-      item => toString(item) !== user.id
-    );
-    const updateLike = {
-      title: findBlog.title,
-      author: findBlog.author,
-      url: findBlog.url,
-      likes: findBlog.likes - 1,
-      likedBy: [...newLikedBy]
-    };
-    dispatch(unlikeBlog(findBlog.id, updateLike));
-  };
-
-  const likedBlog = () => {
-    if (user.likes && user.likes.find(like => like.toString() === blogId))
-      return true;
-    else return false;
-  };
-
-  const likeButton = !user.authenticated ? (
-    <Tooltip title="like" placement="top">
-      <IconButton>
-        <Link to="/login">
-          <FavoriteBorder color="primary" />
-        </Link>
-      </IconButton>
-    </Tooltip>
-  ) : likedBlog() ? (
-    <Tooltip title="Undo like" placement="top">
-      <IconButton onClick={handleUnLikeButton}>
-        <Favorite color="primary" />
-      </IconButton>
-    </Tooltip>
-  ) : (
-    <Tooltip title="Undo like" placement="top">
-      <IconButton onClick={handleLikeButton}>
-        <FavoriteBorder color="primary" />
-      </IconButton>
-    </Tooltip>
-  );
-  const handleDeleteButton = () => {};
+  const deleteButton =
+    user.authenticated && user.id === userHandle.toString() ? (
+      <DeleteBlog blogId={blogId} />
+    ) : null;
 
   return (
     <Card className={classes.card}>
@@ -105,13 +59,21 @@ const Blog = ({ blogId, title, author, url, likes }) => {
         <Typography variant="h5" component="h2">
           {title}
         </Typography>
+        {deleteButton}
         <Typography color="textSecondary" variant="body2" component="p">
           {author}
         </Typography>
         <Typography color="textSecondary" variant="body2" component="p">
           {url}
         </Typography>
-        {likeButton}
+        <LikeButton
+          blogId={blogId}
+          userHandle={userHandle}
+          title={title}
+          author={author}
+          url={url}
+          likes={likes}
+        />
         <span>{likes} Likes</span>
         <Tooltip title="comments" placement="top">
           <IconButton>
@@ -119,6 +81,14 @@ const Blog = ({ blogId, title, author, url, likes }) => {
           </IconButton>
         </Tooltip>
         <span>Comments</span>
+        <BlogDialog
+          blogId={blogId}
+          userHandle={userHandle}
+          title={title}
+          author={author}
+          url={url}
+          likes={likes}
+        />
       </CardContent>
     </Card>
   );

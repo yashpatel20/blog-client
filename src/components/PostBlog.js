@@ -38,7 +38,7 @@ const PostBlog = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newUrl, setNewUrl] = useState("");
-  const [newLikes, setNewLikes] = useState("");
+  const [newLikes, setNewLikes] = useState(0);
   const ui = useSelector(state => state.UI);
 
   const handleOpen = () => setOpen(true);
@@ -113,7 +113,7 @@ const PostBlog = () => {
               onChange={handleUrlChange}
               fullWidth
             />
-            <TextField
+            {/* <TextField
               name="likes"
               type="text"
               label="Likes"
@@ -123,7 +123,7 @@ const PostBlog = () => {
               className={classes.textField}
               onChange={handleLikesChange}
               fullWidth
-            />
+            /> */}
             <Button
               type="submit"
               variant="contained"

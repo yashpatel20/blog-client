@@ -60,7 +60,6 @@ export const getUserData = id => async dispatch => {
   dispatch({ type: LOADING_USER });
   try {
     const user = await userService.getUserByID(id);
-    console.log(user);
     dispatch({
       type: SET_USER,
       payload: user

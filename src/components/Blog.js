@@ -83,21 +83,33 @@ const Blog = ({
           likes={likes}
         />
         <span>{likes} Likes</span>
-        <Tooltip title="comments" placement="top">
-          <IconButton>
-            <ChatIcon />
-          </IconButton>
-        </Tooltip>
+        {user.authenticated ? (
+          <Tooltip title="comments" placement="top">
+            <IconButton>
+              <ChatIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Link to="/login">
+            <Tooltip title="comments" placement="top">
+              <IconButton>
+                <ChatIcon />
+              </IconButton>
+            </Tooltip>
+          </Link>
+        )}
         <span>{noOfComments} Comments</span>
-        <BlogDialog
-          blogId={blogId}
-          userHandle={userHandle}
-          title={title}
-          author={author}
-          url={url}
-          likes={likes}
-          noOfComments={noOfComments}
-        />
+        {user.authenticated ? (
+          <BlogDialog
+            blogId={blogId}
+            userHandle={userHandle}
+            title={title}
+            author={author}
+            url={url}
+            likes={likes}
+            noOfComments={noOfComments}
+          />
+        ) : null}
       </CardContent>
     </Card>
   );

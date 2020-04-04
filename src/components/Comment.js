@@ -61,7 +61,6 @@ const Commment = () => {
             </Grid>
           </Grid>
         </Grid>
-        <hr className={classes.visibleSeparator} />
       </Fragment>
     );
   });

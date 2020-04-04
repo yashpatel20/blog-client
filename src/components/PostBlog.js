@@ -14,6 +14,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core";
+import user from "../services/user";
 
 const styles = makeStyles({
   submitButton: {
@@ -41,6 +42,7 @@ const PostBlog = () => {
   const [newLikes, setNewLikes] = useState(0);
   const [newNoOfComments, setNewNoOfComments] = useState(0);
   const ui = useSelector(state => state.UI);
+  const userId = useSelector(state => state.user.id);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -58,7 +60,7 @@ const PostBlog = () => {
       likes: newLikes,
       noOfComments: newNoOfComments
     };
-    dispatch(postBlog(newBlog));
+    dispatch(postBlog(newBlog, userId));
     setOpen(false);
     setNewTitle("");
     setNewAuthor("");

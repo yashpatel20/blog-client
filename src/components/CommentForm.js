@@ -49,6 +49,7 @@ const CommentForm = ({ blogId }) => {
       user: myBlog.user.id
     };
     dispatch(submitComment(blogId, newBlog, user.id));
+    setBody("");
   };
   const commentFormMarkup = user.authenticated ? (
     <Grid item sm={12} style={{ textAlign: "center" }}>
@@ -71,7 +72,6 @@ const CommentForm = ({ blogId }) => {
           Submit
         </Button>
       </form>
-      <hr className={classes.visibleSeparator} />
     </Grid>
   ) : null;
 

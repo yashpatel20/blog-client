@@ -45,7 +45,7 @@ export const getBlog = id => async dispatch => {
 };
 
 //Post a blog
-export const postBlog = newBlog => async dispatch => {
+export const postBlog = (newBlog, userId) => async dispatch => {
   dispatch({ type: LOADING_UI });
   const blogObject = {
     ...newBlog,
@@ -56,6 +56,11 @@ export const postBlog = newBlog => async dispatch => {
     const response = await blogService.create(blogObject);
     dispatch({ type: POST_BLOG, payload: response });
     dispatch({ type: CLEAR_ERRORS });
+    const user = await userService.getUserByID(userId);
+    dispatch({
+      type: SET_USER,
+      payload: user
+    });
   } catch (error) {
     console.log(error);
   }
@@ -97,10 +102,15 @@ export const unlikeBlog = (blogId, blogObject, userId) => async dispatch => {
   }
 };
 
-export const deleteBlog = blogId => async dispatch => {
+export const deleteBlog = (blogId, userId) => async dispatch => {
   try {
     const response = await blogService.deleteReq(blogId);
     dispatch({ type: DELETE_BLOG, payload: blogId });
+    const user = await userService.getUserByID(userId);
+    dispatch({
+      type: SET_USER,
+      payload: user
+    });
   } catch (error) {
     console.log(error);
   }
@@ -123,6 +133,19 @@ export const submitComment = (blogId, blogObject, userId) => async dispatch => {
     dispatch({
       type: SET_BLOG,
       payload: blog
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getUserData = userId => async dispatch => {
+  dispatch({ type: LOADING_DATA });
+  try {
+    const response = userService.getUserByID(userId);
+    dispatch({
+      type: SET_BLOGS,
+      payload: response.blogs
     });
   } catch (error) {
     console.log(error);

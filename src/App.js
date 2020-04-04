@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import User from "./pages/User";
 import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import jwtDecode from "jwt-decode";
@@ -75,6 +76,9 @@ function App() {
             </Route>
             <Route path="/signup">
               {auth === false ? <Signup /> : <Redirect to="/" />}
+            </Route>
+            <Route path="/user/:username">
+              <User />
             </Route>
             <Route path="/">
               <Home />

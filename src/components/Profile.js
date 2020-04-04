@@ -132,7 +132,7 @@ const Profile = () => {
           <div className="profile-details">
             <MuiLink
               component={Link}
-              to={`/users/${username}`}
+              to={`/user/${username}`}
               color="primary"
               variant="h5"
             >
@@ -144,11 +144,13 @@ const Profile = () => {
             <Typography>{id}</Typography>
             <hr />
           </div>
-          <Tooltip title="Logout" placement="top">
-            <IconButton onClick={handleLogout}>
-              <KeyboardReturn color="primary" />
-            </IconButton>
-          </Tooltip>
+          <Link to="/">
+            <Tooltip title="Logout" placement="top">
+              <IconButton onClick={handleLogout}>
+                <KeyboardReturn color="primary" />
+              </IconButton>
+            </Tooltip>
+          </Link>
         </div>
       </Paper>
     ) : (

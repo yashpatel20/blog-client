@@ -12,11 +12,12 @@ import "../App.css";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
 import HomeIcon from "@material-ui/icons/Home";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
 
 const Navbar = () => {
   const authenticated = useSelector(state => state.user.authenticated);
+  const username = useSelector(state => state.user.username);
   return (
     <AppBar>
       <Toolbar className="nav-container">
@@ -30,11 +31,13 @@ const Navbar = () => {
                 </IconButton>
               </Tooltip>
             </Link>
-            <Tooltip title="Notifications" placement="top">
-              <IconButton>
-                <NotificationsIcon />
-              </IconButton>
-            </Tooltip>
+            <Link to={`/user/${username}`}>
+              <Tooltip title="Account" placement="top">
+                <IconButton>
+                  <AccountCircleIcon />
+                </IconButton>
+              </Tooltip>
+            </Link>
           </Fragment>
         ) : (
           <Fragment>

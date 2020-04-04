@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -21,6 +21,7 @@ const styles = makeStyles({
 });
 
 const DeleteBlog = ({ blogId }) => {
+  const userId = useSelector(state => state.user.id);
   const classses = styles();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -28,7 +29,7 @@ const DeleteBlog = ({ blogId }) => {
   const handleClose = () => setOpen(false);
 
   const handleDelete = () => {
-    dispatch(deleteBlog(blogId));
+    dispatch(deleteBlog(blogId, userId));
     setOpen(false);
   };
   return (
